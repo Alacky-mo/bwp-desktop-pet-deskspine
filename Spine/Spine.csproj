@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Platforms>x64</Platforms>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Version>0.10.10</Version>
+        <BaseOutputPath>$(SolutionDir)out</BaseOutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="SFML.Net" Version="2.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\SpineRuntimes\SpineRuntime36\SpineRuntime36.csproj" />
+        <ProjectReference Include="..\SpineRuntimes\SpineRuntime38\SpineRuntime38.csproj" />
+    </ItemGroup>
+
+</Project>

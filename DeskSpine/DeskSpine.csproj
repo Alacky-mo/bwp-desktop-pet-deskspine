@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Platforms>x64</Platforms>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <ApplicationHighDpiMode>PerMonitor</ApplicationHighDpiMode>
+        <!-- 对外可见的程序名：建出来是 BwpDesktopPet.exe / BwpDesktopPet.dll。
+             底下那些一律跟着它走：文件属性里的产品名、安装包产品名、快捷方式指向的那个 exe。
+             不改的：C# 命名空间还是 DeskSpine、目录还是 deskspine/、配置还在 %LOCALAPPDATA%\DeskSpine、
+             单实例 Mutex 名和注册表自启的值名还是 Program.cs 里那个 ProgramName = "DeskSpine"
+             —— 现场那份 config.json 和已设好的开机自启还要接着用，动了它们等于把用户已有的配置和开关弄丢。
+             托盘和「关于」窗上那几字用 Program.DisplayName（百闻牌桌宠），不跟这个英文名走。 -->
+        <AssemblyName>BwpDesktopPet</AssemblyName>
+        <!-- 应用图标：本机那张 res\image\appicon_buzhihuo.ico 是从不知火立绘打的「白+红两色剪影坐进深红圆盘」，
+             属于网易/画师素材的版权衍生件，不进版本库（重生成命令记在 deskspine/.gitignore 那一节）。
+             干净克隆上没这张，就退回上游自带的 appicon_dark.ico —— 保证克隆下来照样建得起来。 -->
+        <ApplicationIcon Condition="Exists('res\image\appicon_buzhihuo.ico')">res\image\appicon_buzhihuo.ico</ApplicationIcon>
+        <ApplicationIcon Condition="!Exists('res\image\appicon_buzhihuo.ico')">appicon_dark.ico</ApplicationIcon>
+        <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+        <Version>0.10.10</Version>
+        <BaseOutputPath>$(SolutionDir)out</BaseOutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="appicon_dark.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\PerfMonitor\PerfMonitor.csproj" />
+        <ProjectReference Include="..\TinyEngine\TinyEngine.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="res\image\hourlychime.ico">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="res\image\focus_damo.ico">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <!-- 应用图标那颗衍生 ico：运行时由 AppIcon.Resolve 从 res\image 取，没装机就退回 resx 占位 -->
+        <None Update="res\image\appicon_buzhihuo.ico">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <!-- 倒计时浮窗的数字和框：版权衍生件，本机用 python ../bwp-assets/install_focus_ui.py 装出来，不进版本库 -->
+        <None Update="res\image\focus_ui\**\*.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <!-- 台词气泡的两张件 + 台词池：衍生件和游戏原文都不进版本库，本机跑 install_dialog_ui.py 装 -->
+        <None Update="res\image\dialog\**\*.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="res\dialog\**\*.tsv">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <RuntimeHostConfigurationOption Include="System.Runtime.Loader.UseRidGraph" Value="true" />
+    </ItemGroup>
+
+</Project>
